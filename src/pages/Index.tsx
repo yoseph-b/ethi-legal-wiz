@@ -1,12 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import LegalHeader from "@/components/LegalHeader";
+import HeroSection from "@/components/HeroSection";
+import LegalCategories from "@/components/LegalCategories";
+import ChatInterface from "@/components/ChatInterface";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<'home' | 'categories' | 'chat'>('home');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  const handleGetStarted = () => {
+    setCurrentView('categories');
+  };
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentView('chat');
+  };
+
+  const handleBackToCategories = () => {
+    setCurrentView('categories');
+    setSelectedCategory('');
+  };
+
+  const handleBackToHome = () => {
+    setCurrentView('home');
+    setSelectedCategory('');
+  };
+
+  if (currentView === 'chat') {
+    return (
+      <ChatInterface 
+        selectedCategory={selectedCategory} 
+        onBack={handleBackToCategories}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <LegalHeader />
+      
+      {currentView === 'home' && (
+        <HeroSection onGetStarted={handleGetStarted} />
+      )}
+      
+      {currentView === 'categories' && (
+        <LegalCategories onCategorySelect={handleCategorySelect} />
+      )}
     </div>
   );
 };
