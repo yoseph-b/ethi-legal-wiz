@@ -1,12 +1,24 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import LegalHeader from "@/components/LegalHeader";
 import HeroSection from "@/components/HeroSection";
 import LegalCategories from "@/components/LegalCategories";
 import ChatInterface from "@/components/ChatInterface";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Index = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'home' | 'categories' | 'chat'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+    }
+  }, [user, navigate]);
 
   const handleGetStarted = () => {
     setCurrentView('categories');
@@ -26,6 +38,10 @@ const Index = () => {
     setCurrentView('home');
     setSelectedCategory('');
   };
+
+  if (!user) {
+    return null;
+  }
 
   if (currentView === 'chat') {
     return (
