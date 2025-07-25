@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, ArrowLeft, Scale } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -32,7 +33,7 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
   ]);
   const [inputMessage, setInputMessage] = useState("");
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
     const userMessage: Message = {
@@ -43,19 +44,59 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputMessage;
     setInputMessage("");
 
-    // Simulate bot response (in real app, this would call your AI backend)
-    setTimeout(() => {
+    // Add typing indicator
+    const typingMessage: Message = {
+      id: 'typing',
+      content: 'Thinking...',
+      sender: 'bot',
+      timestamp: new Date(),
+      category: selectedCategory
+    };
+    setMessages(prev => [...prev, typingMessage]);
+
+    try {
+      // Call our Supabase edge function
+      const { data, error } = await supabase.functions.invoke('legal-chat', {
+        body: {
+          message: currentInput,
+          category: selectedCategory
+        }
+      });
+
+      // Remove typing indicator
+      setMessages(prev => prev.filter(msg => msg.id !== 'typing'));
+
+      if (error) {
+        throw error;
+      }
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: `Thank you for your question about "${inputMessage}". For ${selectedCategory || 'this legal matter'}, I need to connect to our AI backend to provide you with accurate information based on Ethiopian law. Please set up the Supabase integration to enable the AI legal assistant functionality.`,
+        content: data.response || 'I apologize, but I encountered an issue. Please try again.',
         sender: 'bot',
         timestamp: new Date(),
         category: selectedCategory
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 1000);
+
+    } catch (error) {
+      console.error('Error calling legal-chat function:', error);
+      
+      // Remove typing indicator
+      setMessages(prev => prev.filter(msg => msg.id !== 'typing'));
+      
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'I apologize, but I\'m having trouble connecting to the legal database. Please try again in a moment, or consult with a qualified Ethiopian lawyer for immediate assistance.',
+        sender: 'bot',
+        timestamp: new Date(),
+        category: selectedCategory
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
