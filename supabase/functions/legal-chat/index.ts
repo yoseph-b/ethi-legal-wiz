@@ -15,17 +15,12 @@ serve(async (req) => {
   }
 
   try {
-    const { message, category, language = 'en' } = await req.json();
-    console.log('Received request:', { message, category, language });
-
-    // System prompt for Ethiopian Legal AI Assistant
-    const languageInstruction = language === 'am' 
-      ? 'Please respond in Amharic (አማርኛ). Use proper Amharic script and culturally appropriate expressions.'
-      : 'Please respond in English.';
+    const { message, category } = await req.json();
+    console.log('Received request:', { message, category });
     
     const systemPrompt = `You are an Ethiopian Legal AI Assistant specializing in Ethiopian law. You provide accurate, helpful information about Ethiopian legal matters while emphasizing the importance of consulting with qualified legal professionals.
 
-${languageInstruction}
+You can respond in multiple languages including English and Amharic. If a user asks in Amharic, respond in Amharic. If they ask in English, respond in English.
 
 Your responses should be:
 - Accurate and based on Ethiopian law
@@ -76,9 +71,7 @@ Please provide information about: ${message}`;
     });
   } catch (error) {
     console.error('Error in legal-chat function:', error);
-    const errorMessage = language === 'am' 
-      ? "በአሁኑ ጊዜ ቴክኒካዊ ችግሮች እያጋጠሙኝ ነው። ለፈጣን ህጋዊ እርዳታ፣ እባክዎ:\n\n1. **በዚህ የህግ ዘርፍ የተካነ ባለሙያ ኢትዮጵያዊ ጠበቃን ያማክሩ**\n2. **ተዛማጅ የኢትዮጵያ ህግ ኮዶችና ደንቦችን ያጣሩ**\n3. **ተዛማጅ የመንግስት ሚኒስቴር ወይም ህጋዊ ባለስልጣንን ያገናኙ**\n4. **የኢትዮጵያ የጠበቃዎች ማህበርን ይማክሩ**\n\n**ማስታወሻ:** ይህ አጠቃላይ መረጃ ብቻ ነው እናም የህግ ምክር አይወክልም።"
-      : "I'm currently experiencing technical difficulties. For immediate legal assistance, please:\n\n1. **Consult with a qualified Ethiopian lawyer** who specializes in this area of law\n2. **Check the relevant Ethiopian legal codes** and regulations\n3. **Contact the appropriate government ministry** or legal authority\n4. **Seek guidance from the Ethiopian Bar Association**\n\n**Disclaimer:** This is general information only and does not constitute legal advice.";
+    const errorMessage = "I'm currently experiencing technical difficulties. For immediate legal assistance, please:\n\n1. **Consult with a qualified Ethiopian lawyer** who specializes in this area of law\n2. **Check the relevant Ethiopian legal codes** and regulations\n3. **Contact the appropriate government ministry** or legal authority\n4. **Seek guidance from the Ethiopian Bar Association**\n\n**Disclaimer:** This is general information only and does not constitute legal advice.";
     
     return new Response(JSON.stringify({ 
       response: errorMessage 

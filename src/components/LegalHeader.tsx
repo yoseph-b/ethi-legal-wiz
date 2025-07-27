@@ -1,10 +1,8 @@
 import { Scale, MessageCircle, Users, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import LanguageSelector from "@/components/LanguageSelector";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +12,6 @@ import {
 
 const LegalHeader = () => {
   const { user, signOut } = useAuth();
-  const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -41,17 +38,16 @@ const LegalHeader = () => {
         <div className="flex items-center space-x-3">
           <Scale className="h-8 w-8" />
           <div>
-            <h1 className="text-xl font-bold">{t('header.title')}</h1>
-            <p className="text-sm opacity-90">{t('header.subtitle')}</p>
+            <h1 className="text-xl font-bold">EthioLegal AI</h1>
+            <p className="text-sm opacity-90">Ethiopian Legal Assistant</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <LanguageSelector />
           {user ? (
             <>
               <Button variant="secondary" size="sm" className="text-primary">
                 <Users className="h-4 w-4 mr-2" />
-                {t('header.findLawyer')}
+                Find Lawyer
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -63,7 +59,7 @@ const LegalHeader = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={handleSignOut} className="gap-2">
                     <LogOut className="h-4 w-4" />
-                    {t('header.signOut')}
+                    Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -71,7 +67,7 @@ const LegalHeader = () => {
           ) : (
             <Link to="/auth">
               <Button variant="secondary" size="sm" className="text-primary">
-                {t('header.signIn')}
+                Sign In
               </Button>
             </Link>
           )}
