@@ -6,7 +6,6 @@ import LegalHeader from "@/components/LegalHeader";
 import HeroSection from "@/components/HeroSection";
 import LegalCategories from "@/components/LegalCategories";
 import ChatInterface from "@/components/ChatInterface";
-import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Index = () => {
   const { user } = useAuth();
