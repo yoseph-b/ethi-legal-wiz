@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MessageCircle, Scale, Clock, Shield } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import heroImage from "@/assets/legal-hero.jpg";
 
 interface HeroSectionProps {
@@ -9,6 +10,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="relative">
       {/* Hero Background */}
@@ -26,14 +29,13 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             <div className="max-w-2xl">
               <Badge className="mb-4 bg-accent text-accent-foreground">
                 <Scale className="h-3 w-3 mr-1" />
-                Ethiopian Legal AI Assistant
+                {t('hero.badge')}
               </Badge>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                Get Instant Legal Guidance for Ethiopian Law
+                {t('hero.title')}
               </h1>
               <p className="text-xl mb-8 opacity-90 leading-relaxed">
-                Access professional legal information and guidance on Ethiopian law through our AI-powered assistant. 
-                Get answers to your legal questions 24/7.
+                {t('hero.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
@@ -42,14 +44,14 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
                   className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-legal text-lg px-8 py-6"
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
-                  Start Legal Consultation
+                  {t('hero.startConsultation')}
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg"
                   className="border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6"
                 >
-                  Learn More
+                  {t('hero.learnMore')}
                 </Button>
               </div>
             </div>
@@ -66,9 +68,9 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
                 <div className="inline-flex p-3 bg-primary/10 rounded-full mb-4">
                   <Clock className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">24/7 Availability</h3>
+                <h3 className="text-xl font-semibold mb-3">{t('features.availability.title')}</h3>
                 <p className="text-muted-foreground">
-                  Get legal guidance anytime, anywhere. Our AI assistant is available around the clock.
+                  {t('features.availability.description')}
                 </p>
               </CardContent>
             </Card>
@@ -78,9 +80,9 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
                 <div className="inline-flex p-3 bg-primary/10 rounded-full mb-4">
                   <Scale className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Ethiopian Law Focus</h3>
+                <h3 className="text-xl font-semibold mb-3">{t('features.ethiopianLaw.title')}</h3>
                 <p className="text-muted-foreground">
-                  Specialized knowledge of Ethiopian legal system, procedures, and regulations.
+                  {t('features.ethiopianLaw.description')}
                 </p>
               </CardContent>
             </Card>
@@ -90,9 +92,9 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
                 <div className="inline-flex p-3 bg-primary/10 rounded-full mb-4">
                   <Shield className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Confidential & Secure</h3>
+                <h3 className="text-xl font-semibold mb-3">{t('features.security.title')}</h3>
                 <p className="text-muted-foreground">
-                  Your legal questions are handled with complete confidentiality and security.
+                  {t('features.security.description')}
                 </p>
               </CardContent>
             </Card>

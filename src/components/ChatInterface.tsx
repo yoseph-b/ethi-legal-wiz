@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, ArrowLeft, Scale } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
@@ -22,10 +23,11 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
+  const { t, language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: `Hello! I'm your Ethiopian Legal AI Assistant. I'm here to help you with questions about ${selectedCategory || 'Ethiopian law'}. Please note that this is for informational purposes only and doesn't replace professional legal advice. How can I help you today?`,
+      content: t('chat.greeting').replace('{category}', selectedCategory || t('chat.legalChat')),
       sender: 'bot',
       timestamp: new Date(),
       category: selectedCategory
@@ -50,7 +52,7 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
     // Add typing indicator
     const typingMessage: Message = {
       id: 'typing',
-      content: 'Thinking...',
+      content: t('chat.thinking'),
       sender: 'bot',
       timestamp: new Date(),
       category: selectedCategory
@@ -62,7 +64,8 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
       const { data, error } = await supabase.functions.invoke('legal-chat', {
         body: {
           message: currentInput,
-          category: selectedCategory
+          category: selectedCategory,
+          language: language
         }
       });
 
@@ -90,7 +93,7 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'I apologize, but I\'m having trouble connecting to the legal database. Please try again in a moment, or consult with a qualified Ethiopian lawyer for immediate assistance.',
+        content: t('chat.error'),
         sender: 'bot',
         timestamp: new Date(),
         category: selectedCategory
@@ -117,17 +120,17 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
             className="text-primary-foreground hover:bg-white/20"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            {t('chat.back')}
           </Button>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-white/20 rounded-lg">
               <Scale className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="font-semibold">{selectedCategory || 'Legal Chat'}</h1>
+              <h1 className="font-semibold">{selectedCategory || t('chat.legalChat')}</h1>
               {selectedCategory && (
                 <Badge variant="secondary" className="text-xs mt-1">
-                  Ethiopian Law
+                  {t('chat.ethiopianLaw')}
                 </Badge>
               )}
             </div>
@@ -176,7 +179,7 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask your legal question here..."
+            placeholder={t('chat.placeholder')}
             className="flex-1"
           />
           <Button 
