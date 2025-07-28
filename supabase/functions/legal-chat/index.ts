@@ -15,9 +15,13 @@ serve(async (req) => {
   }
 
   try {
-    const { message, category } = await req.json();
-    console.log('Received request:', { message, category });
+    const { message, category, documents } = await req.json();
+    console.log('Received request:', { message, category, documents: documents?.length || 0 });
     
+    const documentsContext = documents && documents.length > 0 
+      ? `\n\nThe user has uploaded ${documents.length} document(s): ${documents.map((doc: any) => doc.name).join(', ')}. Please acknowledge that you can see these documents and offer to analyze them in relation to their legal question.`
+      : '';
+
     const systemPrompt = `You are an Ethiopian Legal AI Assistant specializing in Ethiopian law. You provide accurate, helpful information about Ethiopian legal matters while emphasizing the importance of consulting with qualified legal professionals.
 
 You can respond in multiple languages including English and Amharic. If a user asks in Amharic, respond in Amharic. If they ask in English, respond in English.
@@ -29,7 +33,7 @@ Your responses should be:
 - Culturally sensitive to Ethiopian context
 - Focused on the category: ${category}
 
-Always include a disclaimer that your advice is general information and recommend consulting with a qualified Ethiopian lawyer for specific legal matters.
+Always include a disclaimer that your advice is general information and recommend consulting with a qualified Ethiopian lawyer for specific legal matters.${documentsContext}
 
 Please provide information about: ${message}`;
 
