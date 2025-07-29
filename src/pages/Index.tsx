@@ -6,11 +6,12 @@ import LegalHeader from "@/components/LegalHeader";
 import HeroSection from "@/components/HeroSection";
 import LegalCategories from "@/components/LegalCategories";
 import ChatInterface from "@/components/ChatInterface";
+import FindLawyer from "@/components/FindLawyer";
 
 const Index = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [currentView, setCurrentView] = useState<'home' | 'categories' | 'chat'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'categories' | 'chat' | 'findLawyer'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const Index = () => {
 
   const handleGetStarted = () => {
     setCurrentView('categories');
+  };
+
+  const handleFindLawyer = () => {
+    setCurrentView('findLawyer');
   };
 
   const handleCategorySelect = (category: string) => {
@@ -51,12 +56,18 @@ const Index = () => {
     );
   }
 
+  if (currentView === 'findLawyer') {
+    return (
+      <FindLawyer onBack={handleBackToHome} />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <LegalHeader />
       
       {currentView === 'home' && (
-        <HeroSection onGetStarted={handleGetStarted} />
+        <HeroSection onGetStarted={handleGetStarted} onFindLawyer={handleFindLawyer} />
       )}
       
       {currentView === 'categories' && (

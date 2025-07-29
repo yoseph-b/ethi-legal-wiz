@@ -1,15 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, Scale, Clock, Shield } from "lucide-react";
+import { MessageCircle, Scale, Clock, Shield, Users } from "lucide-react";
 
 import heroImage from "@/assets/legal-hero.jpg";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
+  onFindLawyer: () => void;
 }
 
-const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
+const HeroSection = ({ onGetStarted, onFindLawyer }: HeroSectionProps) => {
   
   return (
     <div className="relative">
@@ -46,11 +47,13 @@ const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
                   Start Legal Consultation
                 </Button>
                 <Button 
+                  onClick={onFindLawyer}
                   variant="outline" 
                   size="lg"
                   className="border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6"
                 >
-                  Learn More
+                  <Users className="h-5 w-5 mr-2" />
+                  Find Lawyer
                 </Button>
               </div>
             </div>
