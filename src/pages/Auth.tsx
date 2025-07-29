@@ -7,8 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Scale, ArrowLeft } from 'lucide-react';
+import { Loader2, Scale, ArrowLeft, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import FindLawyer from '@/components/FindLawyer';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showFindLawyer, setShowFindLawyer] = useState(false);
   
   const { signIn, signUp, resetPassword } = useAuth();
   const navigate = useNavigate();
@@ -162,6 +164,12 @@ const Auth = () => {
     );
   }
 
+  if (showFindLawyer) {
+    return (
+      <FindLawyer onBack={() => setShowFindLawyer(false)} />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
@@ -284,6 +292,20 @@ const Auth = () => {
                 </form>
               </TabsContent>
             </Tabs>
+            
+            <div className="mt-6 pt-4 border-t border-border/20">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => setShowFindLawyer(true)}
+              >
+                <Users className="h-4 w-4 mr-2" />
+                Find Lawyer
+              </Button>
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                Browse available lawyers without creating an account
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
