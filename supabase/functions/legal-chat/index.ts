@@ -2,49 +2,11 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openRouterApiKey = Deno.env.get('OPENROUTER_API_KEY');
-const googleTranslateApiKey = Deno.env.get('GOOGLE_TRANSLATE_API_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-// Function to detect if text is in Amharic
-function isAmharic(text: string): boolean {
-  // Check for Amharic Unicode range (U+1200-U+137F)
-  const amharicRegex = /[\u1200-\u137F]/;
-  return amharicRegex.test(text);
-}
-
-// Function to translate text using Google Translate API
-async function translateText(text: string, targetLang: string): Promise<string> {
-  if (!googleTranslateApiKey) {
-    throw new Error('Google Translate API key not configured');
-  }
-
-  const response = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?key=${googleTranslateApiKey}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        q: text,
-        target: targetLang,
-        format: 'text',
-      }),
-    }
-  );
-
-  const data = await response.json();
-  
-  if (!response.ok) {
-    throw new Error(`Translation API error: ${data.error?.message || 'Unknown error'}`);
-  }
-
-  return data.data.translations[0].translatedText;
-}
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -55,23 +17,6 @@ serve(async (req) => {
   try {
     const { message, category, documents } = await req.json();
     console.log('Received request:', { message, category, documents: documents?.length || 0 });
-    
-    // Check if message is in Amharic
-    const isAmharicInput = isAmharic(message);
-    console.log('Is Amharic input:', isAmharicInput);
-    
-    // Translate Amharic to English if needed
-    let processedMessage = message;
-    if (isAmharicInput && googleTranslateApiKey) {
-      try {
-        processedMessage = await translateText(message, 'en');
-        console.log('Translated to English:', processedMessage);
-      } catch (translateError) {
-        console.error('Translation error:', translateError);
-        // Fall back to original message if translation fails
-        processedMessage = message;
-      }
-    }
     
     const documentsContext = documents && documents.length > 0 
       ? `\n\nThe user has uploaded ${documents.length} document(s): ${documents.map((doc: any) => doc.name).join(', ')}. Please acknowledge that you can see these documents and offer to analyze them in relation to their legal question.`
@@ -88,7 +33,7 @@ Your responses should be:
 
 Always include a disclaimer that your advice is general information and recommend consulting with a qualified Ethiopian lawyer for specific legal matters.${documentsContext}
 
-Please provide information about: ${processedMessage}`;
+Please provide information about: ${message}`;
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -107,7 +52,7 @@ Please provide information about: ${processedMessage}`;
           },
           {
             role: 'user',
-            content: processedMessage
+            content: message
           }
         ],
         temperature: 0.7,
@@ -121,18 +66,7 @@ Please provide information about: ${processedMessage}`;
       throw new Error(`OpenRouter API error: ${data.error?.message || 'Unknown error'}`);
     }
 
-    let aiResponse = data.choices[0].message.content;
-
-    // Translate response back to Amharic if original input was Amharic
-    if (isAmharicInput && googleTranslateApiKey) {
-      try {
-        aiResponse = await translateText(aiResponse, 'am');
-        console.log('Translated back to Amharic');
-      } catch (translateError) {
-        console.error('Back-translation error:', translateError);
-        // Keep English response if back-translation fails
-      }
-    }
+    const aiResponse = data.choices[0].message.content;
 
     return new Response(JSON.stringify({ response: aiResponse }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
