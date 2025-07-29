@@ -8,6 +8,7 @@ interface FindLawyerProps {
 }
 
 const FindLawyer = ({ onBack }: FindLawyerProps) => {
+  console.log('FindLawyer component rendering');
   const lawyers = [
     {
       id: 1,

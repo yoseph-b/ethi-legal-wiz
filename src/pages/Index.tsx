@@ -25,7 +25,10 @@ const Index = () => {
   };
 
   const handleFindLawyer = () => {
+    console.log('Find Lawyer button clicked');
+    console.log('Current view before:', currentView);
     setCurrentView('findLawyer');
+    console.log('Current view after setting:', 'findLawyer');
   };
 
   const handleCategorySelect = (category: string) => {
@@ -44,10 +47,14 @@ const Index = () => {
   };
 
   if (!user) {
+    console.log('No user, returning null');
     return null;
   }
 
+  console.log('Current view in Index:', currentView);
+
   if (currentView === 'chat') {
+    console.log('Rendering ChatInterface');
     return (
       <ChatInterface 
         selectedCategory={selectedCategory} 
@@ -57,6 +64,7 @@ const Index = () => {
   }
 
   if (currentView === 'findLawyer') {
+    console.log('Rendering FindLawyer component');
     return (
       <FindLawyer onBack={handleBackToHome} />
     );
