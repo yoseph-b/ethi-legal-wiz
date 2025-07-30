@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, Scale, Clock, Shield, Users } from "lucide-react";
+import { MessageCircle, Scale, Clock, Shield } from "lucide-react";
 
 import heroImage from "@/assets/legal-hero.jpg";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
-  onFindLawyer: () => void;
 }
 
-const HeroSection = ({ onGetStarted, onFindLawyer }: HeroSectionProps) => {
+const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
   
   return (
     <div className="relative">
@@ -37,25 +36,14 @@ const HeroSection = ({ onGetStarted, onFindLawyer }: HeroSectionProps) => {
               <p className="text-xl mb-8 opacity-90 leading-relaxed">
                 Access professional legal information and guidance on Ethiopian law through our AI-powered assistant. Get answers to your legal questions 24/7.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  onClick={onGetStarted}
-                  size="lg" 
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-legal text-lg px-8 py-6"
-                >
-                  <MessageCircle className="h-5 w-5 mr-2" />
-                  Start Legal Consultation
-                </Button>
-                <Button 
-                  onClick={onFindLawyer}
-                  variant="outline" 
-                  size="lg"
-                  className="border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-6"
-                >
-                  <Users className="h-5 w-5 mr-2" />
-                  Find Lawyer
-                </Button>
-              </div>
+              <Button 
+                onClick={onGetStarted}
+                size="lg" 
+                className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-legal text-lg px-8 py-6"
+              >
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Start Legal Consultation
+              </Button>
             </div>
           </div>
         </div>

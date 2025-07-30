@@ -75,7 +75,7 @@ const Index = () => {
       <LegalHeader />
       
       {currentView === 'home' && (
-        <HeroSection onGetStarted={handleGetStarted} onFindLawyer={handleFindLawyer} />
+        <HeroSection onGetStarted={handleGetStarted} />
       )}
       
       {currentView === 'categories' && (
