@@ -9,7 +9,8 @@ import {
   Briefcase, 
   Car,
   Heart,
-  FileText 
+  FileText,
+  Calculator
 } from "lucide-react";
 
 const legalCategories = [
@@ -54,6 +55,13 @@ const legalCategories = [
     description: "Traffic violations, vehicle registration, and transport",
     topics: ["Traffic Rules", "Violations", "Vehicle Law"],
     color: "bg-yellow-50 border-yellow-200"
+  },
+  {
+    icon: Calculator,
+    title: "Tax Law",
+    description: "Tax obligations, procedures, and compliance matters",
+    topics: ["Income Tax", "VAT", "Tax Procedures"],
+    color: "bg-indigo-50 border-indigo-200"
   }
 ];
 
