@@ -12,35 +12,21 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
   const lawyers = [
     {
       id: 1,
+      name: "Kirubel Fekede",
+      image: "/lovable-uploads/ea78d8d1-02bd-4efc-b3d4-cfc7b1ef52e3.png",
+      specialization: "Criminal Law & Succession",
+      rating: 4.8,
+      experience: "5 years",
+      languages: "Amharic, Afaan Oromo"
+    },
+    {
+      id: 2,
       name: "Dr. Alemayehu Tekle",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
       specialization: "Constitutional Law",
       rating: 4.9,
-      experience: "15 years"
-    },
-    {
-      id: 2,
-      name: "Adv. Meron Haile",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
-      specialization: "Corporate Law",
-      rating: 4.8,
-      experience: "12 years"
-    },
-    {
-      id: 3,
-      name: "Dr. Dawit Assefa",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
-      specialization: "Criminal Law",
-      rating: 4.9,
-      experience: "18 years"
-    },
-    {
-      id: 4,
-      name: "Adv. Sara Tadesse",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
-      specialization: "Family Law",
-      rating: 4.7,
-      experience: "10 years"
+      experience: "15 years",
+      languages: "Amharic, English"
     }
   ];
 
@@ -90,6 +76,7 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
                 {/* Lawyer Info */}
                 <h3 className="font-semibold text-lg mb-1">{lawyer.name}</h3>
                 <p className="text-sm text-muted-foreground mb-2">{lawyer.specialization}</p>
+                <p className="text-xs text-muted-foreground mb-3">Languages: {lawyer.languages}</p>
                 
                 {/* Rating and Experience */}
                 <div className="flex justify-center items-center gap-4 mb-4 text-sm">
