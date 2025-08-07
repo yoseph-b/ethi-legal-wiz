@@ -44,7 +44,7 @@ Please provide information about: ${message}`;
         'X-Title': 'Ethiopian Legal Assistant',
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-r1:free',
+        model: 'mistralai/mistral-7b-instruct:free',
         messages: [
           {
             role: 'system',
