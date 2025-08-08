@@ -295,8 +295,8 @@ const Auth = () => {
             
             <div className="mt-6 pt-4 border-t border-border/20">
               <Button
-                variant="outline"
-                className="w-full"
+                variant="default"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 onClick={() => setShowFindLawyer(true)}
               >
                 <Users className="h-4 w-4 mr-2" />
