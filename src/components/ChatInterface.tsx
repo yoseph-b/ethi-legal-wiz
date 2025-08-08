@@ -5,9 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Send, Bot, User, ArrowLeft, Scale, Paperclip } from "lucide-react";
-import DocumentUpload from "./DocumentUpload";
+import { Send, Bot, User, ArrowLeft, Scale } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,12 +17,6 @@ interface Message {
   category?: string;
 }
 
-interface UploadedDocument {
-  id: string;
-  name: string;
-  size: number;
-  url: string;
-}
 
 interface ChatInterfaceProps {
   selectedCategory?: string;
@@ -42,7 +34,6 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  const [uploadedDocuments, setUploadedDocuments] = useState<UploadedDocument[]>([]);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -73,8 +64,7 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
       const { data, error } = await supabase.functions.invoke('legal-chat', {
         body: {
           message: currentInput,
-          category: selectedCategory,
-          documents: uploadedDocuments
+          category: selectedCategory
         }
       });
 
@@ -149,58 +139,36 @@ const ChatInterface = ({ selectedCategory, onBack }: ChatInterfaceProps) => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto p-4 pb-24">
-        <Tabs defaultValue="chat" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="chat">Chat</TabsTrigger>
-            <TabsTrigger value="documents">
-              <Paperclip className="h-4 w-4 mr-2" />
-              Documents ({uploadedDocuments.length})
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="chat">
-            <ScrollArea className="h-[calc(100vh-280px)]">
-              <div className="space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex items-start space-x-3 ${
-                      message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                    }`}
-                  >
-                    <Avatar className="h-8 w-8 mt-1">
-                      <AvatarFallback className={message.sender === 'bot' ? 'bg-primary text-primary-foreground' : 'bg-secondary'}>
-                        {message.sender === 'bot' ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
-                      </AvatarFallback>
-                    </Avatar>
-                    <Card className={`max-w-[80%] ${
-                      message.sender === 'user' 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-card shadow-soft'
-                    }`}>
-                      <CardContent className="p-3">
-                        <p className="text-sm">{message.content}</p>
-                        <p className={`text-xs mt-2 opacity-70`}>
-                          {message.timestamp.toLocaleTimeString()}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
+        <ScrollArea className="h-[calc(100vh-280px)]">
+          <div className="space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex items-start space-x-3 ${
+                  message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+                }`}
+              >
+                <Avatar className="h-8 w-8 mt-1">
+                  <AvatarFallback className={message.sender === 'bot' ? 'bg-primary text-primary-foreground' : 'bg-secondary'}>
+                    {message.sender === 'bot' ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
+                  </AvatarFallback>
+                </Avatar>
+                <Card className={`max-w-[80%] ${
+                  message.sender === 'user' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-card shadow-soft'
+                }`}>
+                  <CardContent className="p-3">
+                    <p className="text-sm">{message.content}</p>
+                    <p className={`text-xs mt-2 opacity-70`}>
+                      {message.timestamp.toLocaleTimeString()}
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
-            </ScrollArea>
-          </TabsContent>
-          
-          <TabsContent value="documents">
-            <div className="h-[calc(100vh-280px)] overflow-y-auto">
-              <DocumentUpload
-                onDocumentUploaded={(doc) => setUploadedDocuments(prev => [...prev, doc])}
-                uploadedDocuments={uploadedDocuments}
-                onRemoveDocument={(id) => setUploadedDocuments(prev => prev.filter(doc => doc.id !== id))}
-              />
-            </div>
-          </TabsContent>
-        </Tabs>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
 
       {/* Chat Input */}
