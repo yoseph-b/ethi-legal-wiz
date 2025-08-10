@@ -96,7 +96,7 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
                   onClick={() => window.open('tel:0717905446', '_self')}
                 >
                   <Phone className="h-4 w-4 mr-2" />
-                  Schedule Call (0717905446
+                  Schedule Call
                 </Button>
               </CardContent>
             </Card>
