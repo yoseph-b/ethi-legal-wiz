@@ -22,7 +22,7 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
     {
       id: 2,
       name: "Kbrom Syum",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+      image: "/lovable-uploads/874b17c0-36ae-47a5-9420-eae2c07f3666.png",
       specialization: "Criminal, Land & Succession Law",
       rating: 4.9,
       experience: "15 years",
@@ -93,7 +93,7 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
                 {/* Price */}
                 <div className="mb-4 p-3 bg-primary/10 rounded-lg">
                   <p className="font-semibold text-primary">500 Ethiopian Birr</p>
-                  <p className="text-sm text-muted-foreground">for 30 minutes call</p>
+                  <p className="text-sm text-muted-foreground">for 1 hour call</p>
                 </div>
 
                 {/* Call Button */}
