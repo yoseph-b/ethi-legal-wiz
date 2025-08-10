@@ -25,8 +25,8 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
       image: "/lovable-uploads/874b17c0-36ae-47a5-9420-eae2c07f3666.png",
       specialization: "Criminal, Land & Succession Law",
       rating: 4.9,
-      experience: "15 years",
-      languages: "Tigrigna, English"
+      experience: "5 years",
+      languages: "Tigrigna, English, Amharic"
     }
   ];
 
@@ -78,16 +78,10 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
                 <p className="text-sm text-muted-foreground mb-2">{lawyer.specialization}</p>
                 <p className="text-xs text-muted-foreground mb-3">Languages: {lawyer.languages}</p>
                 
-                {/* Rating and Experience */}
-                <div className="flex justify-center items-center gap-4 mb-4 text-sm">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span>{lawyer.rating}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span>{lawyer.experience}</span>
-                  </div>
+                {/* Experience */}
+                <div className="flex justify-center items-center gap-1 mb-4 text-sm">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <span>{lawyer.experience}</span>
                 </div>
 
                 {/* Price */}
