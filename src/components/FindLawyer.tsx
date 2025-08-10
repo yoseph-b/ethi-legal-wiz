@@ -14,7 +14,7 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
       id: 1,
       name: "Kirubel Fekede",
       image: "/lovable-uploads/ea78d8d1-02bd-4efc-b3d4-cfc7b1ef52e3.png",
-      specialization: "Family, Labour & Tax Law",
+      specialization: "Family, labour and tax",
       rating: 4.8,
       experience: "5 years",
       languages: "Amharic, Afaan Oromo"
