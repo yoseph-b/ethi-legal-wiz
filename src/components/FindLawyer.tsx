@@ -21,12 +21,12 @@ const FindLawyer = ({ onBack }: FindLawyerProps) => {
     },
     {
       id: 2,
-      name: "Dr. Alemayehu Tekle",
+      name: "Kbrom Syum",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-      specialization: "Constitutional Law",
+      specialization: "Criminal, Land & Succession Law",
       rating: 4.9,
       experience: "15 years",
-      languages: "Amharic, English"
+      languages: "Tigrigna, English"
     }
   ];
 
