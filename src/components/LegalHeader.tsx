@@ -43,6 +43,11 @@ const LegalHeader = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          <Link to="/privacy">
+            <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground">
+              Privacy Policy
+            </Button>
+          </Link>
           {user ? (
             <>
               <Button variant="secondary" size="sm" className="text-primary">
